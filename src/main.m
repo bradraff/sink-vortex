@@ -1,7 +1,7 @@
 %%MAIN
 clearvars; close all; clc
 restoredefaultpath
-wd = ('C:\gradSchool\courses\me354\project');
+wd = pwd;
 pause(3)
 
 %% Add paths
@@ -12,22 +12,20 @@ addpath([wd '\code\read_write\'])
 addpath([wd '\code\edit_vid\'])
 
 %% User inputs
-run_num = 5;
+run_num = 3;
 rot_angle = 90;
 dia_drain = 3.4*2.54; % [cm] drain is 3.4 inches in diameter
 crop_side_length_cm = dia_drain*2; 
 
 %% Load video
-run_str = sprintf('run%03d', run_num);
-filename = [run_str '.mp4'];
-dir_vids = [wd '\data\' run_str '\raw\video\'];
-vid_filepath = [dir_vids filename];
-vid_obj = VideoReader(vid_filepath);
+[vid_file_name, vid_dir_name] = uigetfile('All Files (*.*)', 'Pick a file');
+vid_file_path = fullfile(vid_dir_name, vid_file_name);
+vid_obj = VideoReader(vid_file_path);
 fps = vid_obj.FrameRate;
 dur = vid_obj.Duration;
 
 %% Play video
-implay(vid_filepath)
+implay(vid_file_path)
 
 %% Select start, end frames for trimming
 start_frame = 195;

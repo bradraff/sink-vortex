@@ -73,21 +73,25 @@ save(['..\data\' run_str '\processed\core_properties\' run_str ...
 % plot_core_props_all(tbl_all, 30);
 
 %% Histogram
-% figure('Color', 'w')
-%     subplot(1,2,1)
-%         histogram(tbl_all.x_c, 'Normalization', 'pdf')
-%         xlabel('$x_c$, cm')
-%         ylabel('PDF')
-%         xlim([-8 8])
-%         ylim([0 1.3])
-%         set(gca, 'fontsize', 16)
-%     subplot(1,2,2)
-%         histogram(tbl_all.y_c, 'Normalization', 'pdf')
-%         xlabel('$y_c$, cm')
-%         ylabel('PDF')
-%         xlim([-8 8])
-%         ylim([0 1.3])
-%         set(gca, 'fontsize', 16)
+figure('Color', 'w')
+    x_axis_lim = max(core_props_tbl{:, {'x_c', 'y_c'}}, [], 'all');
+    subplot(1,2,1)
+        histogram(core_props_tbl.x_c, 'Normalization', 'pdf')
+        xlabel('$x_c$, cm', 'Interpreter', 'latex')
+        ylabel('PDF')
+        y_lim_1 = get(gca, 'YLim');
+        xlim([-x_axis_lim, x_axis_lim])
+        set(gca, 'fontsize', 16)
+    subplot(1,2,2)
+        histogram(core_props_tbl.y_c, 'Normalization', 'pdf')
+        xlabel('$y_c$, cm', 'Interpreter', 'latex')
+        ylabel('PDF')
+        y_lim_2 = get(gca, 'YLim');
+        xlim([-x_axis_lim, x_axis_lim])
+        set(gca, 'fontsize', 16)
+    y_lim = [0, max([y_lim_1(2), y_lim_2(2)])];
+    subplot(1,2,1)
+        ylim(y_lim)
         
 %% Plot over time
 

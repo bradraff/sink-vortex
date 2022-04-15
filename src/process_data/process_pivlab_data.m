@@ -1,5 +1,6 @@
 % Converted from a lab - still need to clean up
 
+
 %% Load data
 close all; clearvars
 
@@ -15,6 +16,16 @@ dt  = 1/fs; % [s] timestep
 time_array  = (1:length(x))*dt; % [s]
 frame_nums  = (time_array) * fs; % subtract t0 to get time of recording and not time since valve opening
 frame_nums_paired = floor(frame_nums / 2); % PIV analysis done on pairs of images, will only have half of original frames
+
+%% Interpolate
+d_from_core = 10:10:150; % [pixels]
+angle_array = deg2rad(0:30:360);
+[x_interp, y_interp] = mesh_radially(center, d_from_edge, angle_array);
+
+% % Interpolate u and v to the mesh values
+u_interp = interp2(x{1}, y{1}, u_original{1}, x_interp, y_interp);
+v_interp = interp2(x{1}, y{1}, v_original{1}, x_interp, y_interp);
+
 
 %% Plotting from PIVLab data
 
@@ -171,3 +182,6 @@ figure('color', 'w')
     set(gca, 'fontsize', 20)
     saveas(gcf, 'fig6.emf')
     
+
+%% Determine locations for averaging PIV
+% [x_mesh, y_mesh] = mesh_radially(
